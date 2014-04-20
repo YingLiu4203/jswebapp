@@ -2,23 +2,48 @@ extends ../chapterLayout
 
 block ChapterIntroduction
   :markdown
-    [MongoDB][] is a popular document-oriented database management system (DBMS) developed by [10gen][]. It works perfectly with Node.js to allow developers use JavaScript for data tire development. Like other members of the Node.js eco system, MongoDB has the features of open source, flexibly schema, rich functions and high-performance. Though developed in C++ , MongoDB stores data using JSON-style documents. JavaScript developers feel at home with the JSON-style document manipulation. It also comes with a JavaScript-based interactive shell for database management and provides a high performance, easy-to-use [Node.js MongoDB driver] for database access. The best place to start learning MongoDB is the [MongoDB Manual][]. The manual has detail and up-to-date information for topics such as installation, configuration, management, development and some tutorials. Plase use the manual to find installation instructions for your system. 
-    
-    This chapter introduces the basic concepts of the MongoDB database and develops a database-driven Web application using Node.js platform, express Web Framework and MongoDB database management system.  
-
-    [MongoDB]: http://www.mongodb.org/
-    [10gen]: http://www.10gen.com/
-    [Node.js MongoDB driver]: http://mongodb.github.com/node-mongodb-native/
-    [MongoDB Manual]: http://docs.mongodb.org/manual/
+    Node.js provides the basic functions to receive HTTP requests and write HTTP responses. To develop a commercial Web site that has complex processing logic and hundreds or thousands of Web pages, you need more infrastructure functions provided by othe JavaScript librearies built for Node.js. This chapter introduces [express framework](http://expressjs.com/) , a light but very flexible Node.js Web application framework that simplifies many Web application development tasks. 
 
 block SectionContent
   :markdown
-     MongoDB stores documents in collections. Document are saved in the binary JSON format called BSON. Any JavaScript object in valid JSON form can be stored and accessed using JavaScript-based syntax. Therefore it is natural to use MongoDB in JavaScript programming. There is no need to convert between the program objects and the database objects.  
-     
-     JavaScript object properties are document fields in MongoDB. Because MongoDB is schema-free, you can put different documents into the same collection.  A document field can have multiple values. Every document in MongoDB must have an `_id` field. The value can be generated automatically by MongoDB or set to any value you want assign to it - as long as it is unique in its collection. The `_id` field is the primary key. MongoDB allows you to create secondary indexes in other document fields for better performance. 
-
-     MongoDB supports a rich set of query opertors and update operators. As shown in the following sections, these operators are flexible, easy to understand and easy to use for JavaScript programmers. 
+    The best place to start learning express is its [Guide Document][]. For a quick start, you can install express globally and use it to generate an application. Go to a folder that you want to create your application and run the following commands:
         
-        
+        npm install -g express  
+        express myApp  
+        cd myApp  
+        npm install
 
-    
+    The first command intalls express globally for all applications. The second command creates a subdirectory myApp in the current directory and creates the structure of an express application. The last command installs all dependent libraries used by the myApp application. The depdencies are described in package.json in myApp folder. It has the following content:
+
+        {
+          "name": "application-name",
+          "version": "0.0.1",
+          "private": true,
+          "scripts": {
+            "start": "node app"
+          },
+          "dependencies": {
+            "express": "3.0.4",
+            "jade": "*"
+          }
+        }
+
+    The package.json first defines the name and version of this application. Together they form the  identifier of the program. The private attribute indicates whether you want to keep your program private or not. The "true" value tells npm to not publish this program. 
+
+    In the scripts attribute, it defines a start script command. When you run `npm start`, npm will executes `node app`, which is the command to start this apllication. 
+
+    The dependencies attribute lists other libraries used by this program. It uses express version 3.0.4 and any version of jade. [jade][] is a template engine that easies the tideous tasks of writing HTML pages. 
+
+    You can provide more information such as description and author in package.json file. Details can be found in [npm json document][].  
+
+    To run the application, you can either execute `npm start` or `node app` in command line. The console will display:
+
+    <samp>Express server listening on port 3000</samp>
+
+    Then in your browser, type the url http://localhost:3000/, the browser will show a Web page similar to the following image: 
+
+    ![Express Quick Start Image](/images/ExpressQuickStart.png)
+
+    [Guide Document]: http://expressjs.com/guide.html
+    [jade]: http://jade-lang.com/
+    [npm json document]: https://npmjs.org/doc/json.html

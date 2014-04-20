@@ -2,48 +2,21 @@ extends ../chapterLayout
 
 block ChapterIntroduction
   :markdown
-    Node.js provides the basic functions to receive HTTP requests and write HTTP responses. To develop a commercial Web site that has complex processing logic and hundreds or thousands of Web pages, you need more infrastructure functions provided by othe JavaScript librearies built for Node.js. This chapter introduces [express framework](http://expressjs.com/) , a light but very flexible Node.js Web application framework that simplifies many Web application development tasks. 
+    This chapter is based on the following resources
+
+    - [The Node Beginner Book](http://www.nodebeginner.org/)
+    - [Node book by Mixu](http://book.mixu.net/)
+    - [Node.js Manual](http://nodejs.org/api/)
 
 block SectionContent
   :markdown
-    The best place to start learning express is its [Guide Document][]. For a quick start, you can install express globally and use it to generate an application. Go to a folder that you want to create your application and run the following commands:
-        
-        npm install -g express  
-        express myApp  
-        cd myApp  
-        npm install
+    Short answer: Node.js is a platform that runs JavaScript programs efficiently. 
 
-    The first command intalls express globally for all applications. The second command creates a subdirectory myApp in the current directory and creates the structure of an express application. The last command installs all dependent libraries used by the myApp application. The depdencies are described in package.json in myApp folder. It has the following content:
+    JavaScript was and still is primarily a client side programming language that runs inside a browser. In 2009, [Ryan Dahl](http://tinyclouds.org/) took the Google V8 JavaScript engine, enhanced it with network and I/O functions and made it an independent platform for running JavaScript programs.According to nodejs.org: "Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices." 
 
-        {
-          "name": "application-name",
-          "version": "0.0.1",
-          "private": true,
-          "scripts": {
-            "start": "node app"
-          },
-          "dependencies": {
-            "express": "3.0.4",
-            "jade": "*"
-          }
-        }
+    Therefore the primary goals of Node.js is to build fast scalable network applications. Web application is a network application that should run fast and should be scalable to handle heavy user access. Being a plaftofrm for high performance web application, Node.js has two improtant features:
+  
+    - Non-blocking I/O: it is event driven and every I/O call has a callback function to be called when the I/O call is done.
+    - Low-level: It exposes all network and I/O operation details and gives you full control of the newtwork protocols. 
 
-    The package.json first defines the name and version of this application. Together they form the  identifier of the program. The private attribute indicates whether you want to keep your program private or not. The "true" value tells npm to not publish this program. 
-
-    In the scripts attribute, it defines a start script command. When you run `npm start`, npm will executes `node app`, which is the command to start this apllication. 
-
-    The dependencies attribute lists other libraries used by this program. It uses express version 3.0.4 and any version of jade. [jade][] is a template engine that easies the tideous tasks of writing HTML pages. 
-
-    You can provide more information such as description and author in package.json file. Details can be found in [npm json document][].  
-
-    To run the application, you can either execute `npm start` or `node app` in command line. The console will display:
-
-    <samp>Express server listening on port 3000</samp>
-
-    Then in your browser, type the url http://localhost:3000/, the browser will show a Web page similar to the following image: 
-
-    ![Express Quick Start Image](/images/ExpressQuickStart.png)
-
-    [Guide Document]: http://expressjs.com/guide.html
-    [jade]: http://jade-lang.com/
-    [npm json document]: https://npmjs.org/doc/json.html
+    As a web developer, you will appreciate the choice that you can use the same programming language in both client and server side. JavaScript is simple and powerful. Though it is easy to mess up, the chance that you mess up something is much lower than using two different languages. 

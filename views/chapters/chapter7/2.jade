@@ -2,131 +2,30 @@ extends ../chapterLayout
 
 block SectionContent
   :markdown
-    The command `express myApp` creates a myApp folder that has the following contents: 
-
-    - app.js: the JavaScript file serves as the entry point of the application.
-    - node_modules/: the folder that contains all local dependencies. 
-    - package.json: the meta-data file about the application. 
-    - public/: the folder used to put static contents such as images, JavaScripts and stylesheet files. 
-    - routes/: the folder used to store JavaScript files of the application.
-    - views/: the folder used to store jade view files that defines Web pages.
-
-    The app.js has the following content: 
-
+    With Node.js, you can run JavaScript code in one of two modes: the interactive mode or the script mode. In the interactive mode, you type a JavaScript statement and hit retrun. Node.js executes the statement and gives you feedback on the statement. In the script mode, you type JavaScript statements in a file that usually has an postfix of .js and you use Node.js to execute all statements in the file. 
+  
+    Simply type node and you enter Interactive mode. Node.js displays a command prompt > and waits for you to type a JavaScript statement or a command. For example, type `console.log("Hello World");` after the > prompt
     
-        /**
-         * Module dependencies.
-         */
+     <samp> > console.log("Hello World");</samp>
 
-        var express = require('express')
-          , routes = require('./routes')
-          , user = require('./routes/user')
-          , http = require('http')
-          , path = require('path');
+    In the above code, the console is a bult-in Node.js object. Its log method writes a string to the console. Usually the console is the current window screen. Node.js executes the statment that writes "Hello World" to the screen. It also reports the result of this method call. Because console.log() method returns nothing, the result is undefined. After you hit enter, Node.js will display  
 
-        var app = express();
+    <samp>Hello World  
+      undefined
+    </samp>  
+    
+    Usually you use interactive mode to try something out because it gives you immediate feedback of a JavaScript statement. 
+    
+    Alternatively, you can write the same statement in a script file. Using a text editor such as notepad to create a file named hello.js and type the following statement in the file:
+    
+        console.log("Hello World");
 
-        app.configure(function(){
-          app.set('port', process.env.PORT || 3000);
-          app.set('views', __dirname + '/views');
-          app.set('view engine', 'jade');
-          app.use(express.favicon());
-          app.use(express.logger('dev'));
-          app.use(express.bodyParser());
-          app.use(express.methodOverride());
-          app.use(app.router);
-          app.use(express.static(path.join(__dirname, 'public')));
-        });
+    Save the file and close the text editor. In the same directory, run the command:
+    
+        node hello.js
 
-        app.configure('development', function(){
-          app.use(express.errorHandler());
-        });
+    Node.js executes the file and displays 
+    
+    <samp>Hellow World</samp>
 
-        app.get('/', routes.index);
-        app.get('/users', user.list);
-
-        http.createServer(app).listen(app.get('port'), function(){
-          console.log("Express server listening on port " + app.get('port'));
-        });
-
-    ## Module Dependencies and the express object
-
-    In the module dependency section, app.js lists the modules used in this application. First it loads express, which you installed locally in the node_modules folder. Then it loads './routes'. Because './routes' is a foler pathname, Node.js actually loads './routes/index.js'. Next, it loads './routes/user.js' (.js is appended to the module identifier automatically by Node.js) as well as two core modules: 'http' and 'path'. 
-
-    app.js then creates an express object and assign it to a variable named app. 
-
-    ## express Configuration
-
-    Express is a thin Web application framework that works with other modules to provide useful functions. A Web template engine helps to create HTML pages by supporting page layout, file inclusion and page inheritance. Express can work with many template engines. In the above file, it specifies the views folder and use jade as its view engine. The views folder contains Web pages. The built-in varialbe __dirname has the current path of this application. The views folder is ./views.
-
-    Express uses many plugins (or middlewares) to process HTTP requests and responses. These plugins are specified using app.use() method. It uses express.favicon() to provide a default favicon for the Web application. It uses express.logger() to log HTTP requests. It uses express.bodyParser() to extract HTTP query parameters or forms values thus those data can be easily accessed in a Web application. The express.methodOverride() allows you to use DELETE and PUT methods in HTTP requests.  app.router provides routing function for a Web application. app.router maps an HTTP request to the app.get() or app.post() routers defined in a Web application. The express.static() function process all HTTP requests for static resources: files such as static html, CSS, JavaScript, and images. The argument of the express.static() specifies the folder for the static files. In this case, it is the ./public foler. 
-
-    The order of app.use() is the same order used in processing an HTTP request. For example, express.logger('dev') is called before express.bodyParser(). The process may stop in a middleware. For example, if an HTTP request is processed by app.route, the process stops there and  express.static() will not be called. 
-
-    Next, app.js defines error handler for the 'development' enviornment. The environment is specified using envoironment variable NODE_ENV. It can be any name but common names are one of 'development', 'product', and 'test'. The default value is 'development'. 
-
-    ## Routes and HTTP server
-
-    The routes specify the handlers for an HTTP request method and Url. The code `app.get('/', routes.index);` tells express that when the request is for home page, routes.index method will be called to process the request. The code of index.js is as following: 
-
-        /*
-          * GET home page.
-          */
-
-        exports.index = function(req, res){
-          res.render('index', { title: 'Express' });
-        };
-      
-    In the function, it renders the index view (index.jade) with a parameter object that sets title to the string 'Express'. We will explain Views below. 
-      
-    Similaryly, a request to /users will call the user.list method.  It's defined in user.js
-
-        /*
-          * GET users listing.
-          */
-
-        exports.list = function(req, res){
-          res.send("respond with a resource");
-        };
-
-     The method just returns the string "respond with a resource" for an HTTP get request to /users. 
-      
-    The last statement uses app to process HTTP requets and listens on the specifid port (3000, if PORT enviornmane variable is not defined). When it starts, dipslay a message in the console. 
-
-    ## Views
-
-    As specified in the application configuration, HTML pages (views) are in the views directory. The view engine is Jade. In the views directory, there are two files: layout.jade and index.jade. 
-
-    The layout.jade file defines the overall layout of an HTML page where any jade file specified in res.render() provides the body element of an HTML page. The jade syntax (defined in https://github.com/visionmedia/jade and a simple tutorial http://www.franz-enzenhofer.com/jade) makes writing HTML page easier.  In layout.jade:
-
-        doctype 5
-        html
-          head
-            title= title
-            link(rel='stylesheet', href='/stylesheets/style.css')
-          body
-            block content
-
-    It defines the structure of an HTML file. `doctype 5` specifies an HTML 5 doctype. In the head, it gives page title a value that is provided by a JavaScript object property named `title`. The name following = is a JavaScript object property name. The JavaScript file (index.js) that uses this jade file (index.jade), will provide an object that has a property named `title`. Then it defines the style sheet for this HTML page. In the body element, it defines a content block that is to be provided by other views that will use this layout.jade. In this sample, the content block is provided by the index.jade. In index.jade:
-
-        extends layout
-
-        block content
-          h1= title
-          p Welcome to \#\{title\}
-
-    In the first line, it says that it extends the layout.jade template. Then it defines the block content that will replace the block content in the layout. The content has two element. In `<h1>` element, the text is given by the object property `title` from index.jade. In `<p>` element, \\#\\{title\\} is the so-called interpolition. When you use a JavaScript object property with other literal string, you should use this syntax. Again, it uses the object property `title` provided by index.js. Because the application pass an object { title: 'Express' } in index.js to the jade engine, all three places (one in layout.jade and two in index.jade) that uses `title` will be replaced by the string 'Express'. The generate HTML page is
-
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title> Express </title>
-            <link rel="stylesheet" href="/stylesheets/style.css">
-          </head>
-          <body>
-            <h1> Express </h1>
-            <p> Welcome to Express </p>
-          </body>
-        </html>
-
-    The rendered HTML file is the response to the HTTP request of a get method of path '/'. To use express efficiently, you should be familiar yourself with a template engine language such as jade. 
+    You use the script mode to run a JavaScript program. 

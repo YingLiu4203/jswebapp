@@ -5,7 +5,7 @@ block BodyContent
 
   #contents
     each chapter in chapters
-      chLink = 'chapter/' + chapter.chapterNum
+      - var chLink = 'chapter/' + chapter.chapterNum
       .tocChapter
         //- id is used for cookie operation
         a(href!= chLink) 

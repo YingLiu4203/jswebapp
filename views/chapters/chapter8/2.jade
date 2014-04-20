@@ -2,134 +2,131 @@ extends ../chapterLayout
 
 block SectionContent
   :markdown
-    To run the code example in this section, you need to install MongoDB first. Plase go to http://docs.mongodb.org/manual/installation/ and install the appropriate MongoDB package for your operating systems. It is easy to install MongoDB driver when you have Node.js and npm installed properly. The command is as the following. 
-        
-        `npm install mongodb`
+    The command `express myApp` creates a myApp folder that has the following contents: 
 
-    To access MongoDB, you need to create a MongoClient and connect to the database. The code is:
+    - app.js: the JavaScript file serves as the entry point of the application.
+    - node_modules/: the folder that contains all local dependencies. 
+    - package.json: the meta-data file about the application. 
+    - public/: the folder used to put static contents such as images, JavaScripts and stylesheet files. 
+    - routes/: the folder used to store JavaScript files of the application.
+    - views/: the folder used to store jade view files that defines Web pages.
 
-        var mongoClient = require('mongodb').MongoClient;
-        mongoClient.connect("mongodb://localhost:27017/TestDb", function(err, db) {
-          if (!err) {
-            console.log("Connected to MongoDB");
-            // use db to access the MongoDB
-          } else {
-            console.log("Failed to connect to MongoDB. Error: " + console.dir(err));
-          }
-        });
+    The app.js has the following content: 
 
-    The connect() method requiers the database localation (an URI path). The last part of the URI, TestDb, is the database name. If it does not exist, MongoDB will create the database when you create data in it. The default port number of MongoDB is 27017. The second parameter is a function that is called when the connection operation is completed. The err parameter is set when there is an error in the connection. If it is null, the connection is completed without error. You can use the second paramter, db, to access the database. The following code based on the [mongodb driver example][]. 
-
-        function exitOnError(err, result) {
-          if (err) {
-            logAndExit(err);
-          }
-        }
-
-        function logAndExit(err) {
-            console.log("Operation error: " + err);
-            process.exit(1);
-        }
-
-        var mongoClient = require('mongodb').MongoClient;
-        mongoClient.connect("mongodb://localhost:27017/TestDb", function (err, db) {
-          if (!err) {
-            console.log("Connected to MongoDB.");
-
-            // use db to access the MongoDB, first create a 'test' collection
-            db.createCollection('test', function (err, collection) {
-              console.log("test collection was created.");
-              if (err) {
-                logAndExit(err);
-              }
-
-              // clear all data in case we run it many times    
-              collection.remove(exitOnError);
-
-              // some objects to be inserted 
-              var doc1 = {
-                'hello': 'doc1'
-              };
-              var doc2 = {
-                'hello': 'doc2'
-              };
-              var docs = [{
-                'hello': 'doc3'
-              }, {
-                'hello': 'doc4'
-              }];
-
-              // we can insert an individual object or an array of objects
-              collection.insert(doc1, exitOnError);
-              collection.insert(doc2, exitOnError);
-              collection.insert(docs, exitOnError);
-              console.log("4 docs were inserted.");
-
-              // update an object, the first parameter specifies which object to update
-              collection.update({
-                'hello': 'doc1'
-                }, {
-                  // $set is an opertor that set a new value to an attribute
-                  $set: {
-                    'hello': 'newDoc1'
-                  }
-                }, 
-                exitOnError
-              );
-              console.log("doc1 updated.");
-
-              // remove an object, the first parameter specifies which object to remove
-              collection.remove(
-                {
-                  'hello': "doc3",
-                }, 
-                exitOnError
-              );
-              console.log("doc3 removed.");
-
-              // find documents
-              collection.findOne({ 'hello': 'newDoc1' }, function (err, result) {
-                console.log("findOne() result: " + result.hello);
-              });
-        
-              console.log("list all docs: ");
-              collection.find().toArray(function (err, items) {
-                if (!err) {
-                  for (var index = 0; index < items.length; index++) {
-                    console.log(items[index]);
-                  }
-
-                  // you should close database after the last operation
-                  console.log("close database after use");
-                  db.close();
-                }
-              });  // end of collection.find()
-
-            }); // end of db.createCollection()
-
-          } else {
-            logAndExit(err);
-          }
-        });
-
-        
-    As in other Node.js programs, most MongoDB operations are asynchronous that take a callback function. To simplify the code example, we first define tow help functions used in our code. Many MongoDB operation callback function has the signature of `function(err, result)`, thus we define an error handling function that exit on error. When the err parameter is not null, the function calls the second function that logs the err object and exit. The rest of the code is easy to understand with the code comments and the output messages. If you save the code to a file testDb.js and run `node testDb`, the output is as following. 
     
-    <samp>
-      Connected to MongoDB.  
-      test collection was created.  
-      4 docs were inserted.  
-      doc1 updated.  
-      doc3 removed.  
-      list all docs:  
-      findOne() result: newDoc1  
-      { _id: 50d133995bb1154401000001, hello: 'newDoc1' }  
-      { hello: 'doc2', _id: 50d133995bb1154401000002 }  
-      { hello: 'doc4', _id: 50d133995bb1154401000004 }  
-      close database after use
-    </samp>
+        /**
+         * Module dependencies.
+         */
 
-    MongoDB supports many updating and query operations. More examples can be found in [mongodb driver examples][] Web site. 
+        var express = require('express')
+          , routes = require('./routes')
+          , user = require('./routes/user')
+          , http = require('http')
+          , path = require('path');
 
-    [mongodb driver example]: http://mongodb.github.com/node-mongodb-native/api-articles/nodekoarticle1.html
-    [mongodb driver examples]: https://github.com/mongodb/node-mongodb-native/tree/master/examples
+        var app = express();
+
+        app.configure(function(){
+          app.set('port', process.env.PORT || 3000);
+          app.set('views', __dirname + '/views');
+          app.set('view engine', 'jade');
+          app.use(express.favicon());
+          app.use(express.logger('dev'));
+          app.use(express.bodyParser());
+          app.use(express.methodOverride());
+          app.use(app.router);
+          app.use(express.static(path.join(__dirname, 'public')));
+        });
+
+        app.configure('development', function(){
+          app.use(express.errorHandler());
+        });
+
+        app.get('/', routes.index);
+        app.get('/users', user.list);
+
+        http.createServer(app).listen(app.get('port'), function(){
+          console.log("Express server listening on port " + app.get('port'));
+        });
+
+    ## Module Dependencies and the express object
+
+    In the module dependency section, app.js lists the modules used in this application. First it loads express, which you installed locally in the node_modules folder. Then it loads './routes'. Because './routes' is a foler pathname, Node.js actually loads './routes/index.js'. Next, it loads './routes/user.js' (.js is appended to the module identifier automatically by Node.js) as well as two core modules: 'http' and 'path'. 
+
+    app.js then creates an express object and assign it to a variable named app. 
+
+    ## express Configuration
+
+    Express is a thin Web application framework that works with other modules to provide useful functions. A Web template engine helps to create HTML pages by supporting page layout, file inclusion and page inheritance. Express can work with many template engines. In the above file, it specifies the views folder and use jade as its view engine. The views folder contains Web pages. The built-in varialbe __dirname has the current path of this application. The views folder is ./views.
+
+    Express uses many plugins (or middlewares) to process HTTP requests and responses. These plugins are specified using app.use() method. It uses express.favicon() to provide a default favicon for the Web application. It uses express.logger() to log HTTP requests. It uses express.bodyParser() to extract HTTP query parameters or forms values thus those data can be easily accessed in a Web application. The express.methodOverride() allows you to use DELETE and PUT methods in HTTP requests.  app.router provides routing function for a Web application. app.router maps an HTTP request to the app.get() or app.post() routers defined in a Web application. The express.static() function process all HTTP requests for static resources: files such as static html, CSS, JavaScript, and images. The argument of the express.static() specifies the folder for the static files. In this case, it is the ./public foler. 
+
+    The order of app.use() is the same order used in processing an HTTP request. For example, express.logger('dev') is called before express.bodyParser(). The process may stop in a middleware. For example, if an HTTP request is processed by app.route, the process stops there and  express.static() will not be called. 
+
+    Next, app.js defines error handler for the 'development' enviornment. The environment is specified using envoironment variable NODE_ENV. It can be any name but common names are one of 'development', 'product', and 'test'. The default value is 'development'. 
+
+    ## Routes and HTTP server
+
+    The routes specify the handlers for an HTTP request method and Url. The code `app.get('/', routes.index);` tells express that when the request is for home page, routes.index method will be called to process the request. The code of index.js is as following: 
+
+        /*
+          * GET home page.
+          */
+
+        exports.index = function(req, res){
+          res.render('index', { title: 'Express' });
+        };
+      
+    In the function, it renders the index view (index.jade) with a parameter object that sets title to the string 'Express'. We will explain Views below. 
+      
+    Similaryly, a request to /users will call the user.list method.  It's defined in user.js
+
+        /*
+          * GET users listing.
+          */
+
+        exports.list = function(req, res){
+          res.send("respond with a resource");
+        };
+
+     The method just returns the string "respond with a resource" for an HTTP get request to /users. 
+      
+    The last statement uses app to process HTTP requets and listens on the specifid port (3000, if PORT enviornmane variable is not defined). When it starts, dipslay a message in the console. 
+
+    ## Views
+
+    As specified in the application configuration, HTML pages (views) are in the views directory. The view engine is Jade. In the views directory, there are two files: layout.jade and index.jade. 
+
+    The layout.jade file defines the overall layout of an HTML page where any jade file specified in res.render() provides the body element of an HTML page. The jade syntax (defined in https://github.com/visionmedia/jade and a simple tutorial http://www.franz-enzenhofer.com/jade) makes writing HTML page easier.  In layout.jade:
+
+        doctype 5
+        html
+          head
+            title= title
+            link(rel='stylesheet', href='/stylesheets/style.css')
+          body
+            block content
+
+    It defines the structure of an HTML file. `doctype 5` specifies an HTML 5 doctype. In the head, it gives page title a value that is provided by a JavaScript object property named `title`. The name following = is a JavaScript object property name. The JavaScript file (index.js) that uses this jade file (index.jade), will provide an object that has a property named `title`. Then it defines the style sheet for this HTML page. In the body element, it defines a content block that is to be provided by other views that will use this layout.jade. In this sample, the content block is provided by the index.jade. In index.jade:
+
+        extends layout
+
+        block content
+          h1= title
+          p Welcome to \#\{title\}
+
+    In the first line, it says that it extends the layout.jade template. Then it defines the block content that will replace the block content in the layout. The content has two element. In `<h1>` element, the text is given by the object property `title` from index.jade. In `<p>` element, \\#\\{title\\} is the so-called interpolition. When you use a JavaScript object property with other literal string, you should use this syntax. Again, it uses the object property `title` provided by index.js. Because the application pass an object { title: 'Express' } in index.js to the jade engine, all three places (one in layout.jade and two in index.jade) that uses `title` will be replaced by the string 'Express'. The generate HTML page is
+
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title> Express </title>
+            <link rel="stylesheet" href="/stylesheets/style.css">
+          </head>
+          <body>
+            <h1> Express </h1>
+            <p> Welcome to Express </p>
+          </body>
+        </html>
+
+    The rendered HTML file is the response to the HTTP request of a get method of path '/'. To use express efficiently, you should be familiar yourself with a template engine language such as jade. 

@@ -38,51 +38,51 @@ var sectionTitles = [
  
   // chpater 2
   [
-    'Values, Types and Operations',
-    'Variables and Statements',
-    'Functions',
-    'Objects and Methods'
+    'Values, Types and Operations'
+    //'Variables and Statements',
+    //'Functions',
+    //'Objects and Methods'
   ],
 
   // chapter 3
   [
-    'Data are Values',
-    'Variables Store Values',
-    'Expression Calculates Values',
-    'Statement is the Basic Execution Unit of a Program' 
+    //'Data are Values',
+    //'Variables Store Values',
+    //'Expression Calculates Values',
+    //'Statement is the Basic Execution Unit of a Program' 
   ],
 
   // chapter 4
   [
-    'Function Definition',
-    'Function Call',
-    'Variable Scope',
-    'Nested Functions',
-    'Closure',
-    'Built-in Functions'
+    //'Function Definition',
+    //'Function Call',
+    //'Variable Scope',
+    //'Nested Functions',
+    //'Closure',
+    //'Built-in Functions'
   ],
 
   // chapter 5
   [
-    'Object Properties',
-    'Creating a New Object',
-    'The "this" Keyword in a Function',
-    'Terms and Examples',
-    'Enumerate Object Properties',
-    'Array Object',
-    'Built-in Objects'
+    //'Object Properties',
+    //'Creating a New Object',
+    //'The "this" Keyword in a Function',
+    //'Terms and Examples',
+    //'Enumerate Object Properties',
+    //'Array Object',
+    //'Built-in Objects'
   ],
 
    // chpater 6
   [
-    'Dynamic Object Model',
-    'The [[prototype]] Property of an Object',
-    'The prototyp Property of a Function',
-    'The constructor Property',
-    'Relationships among Constructor, Prototype and Constructed Object',
-    'The Object and Object.prototyp',
-    'The Function and Function.prototyp',
-    'Everything Inherits Object.prototype'
+    //'Dynamic Object Model',
+    //'The [[prototype]] Property of an Object',
+    //'The prototyp Property of a Function',
+    //'The constructor Property',
+    //'Relationships among Constructor, Prototype and Constructed Object',
+    //'The Object and Object.prototyp',
+    //'The Function and Function.prototyp',
+    //'Everything Inherits Object.prototype'
   ], 
 
    // chpater 7
