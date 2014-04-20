@@ -1,0 +1,20 @@
+extends layout
+
+block BodyContent
+  h2 Table of Content
+
+  #contents
+    each chapter in chapters
+      chLink = 'chapter/' + chapter.chapterNum
+      .tocChapter
+        //- id is used for cookie operation
+        a(href!= chLink) 
+          | Chapter #{chapter.chapterNum} #{chapter.chapterTitle}
+      .tocSections
+        each section in chapter.sections
+          a.tocSection(href!= chLink + '/section/' + section.sectionNum ) 
+            | #{chapter.chapterNum}.#{section.sectionNum} #{section.sectionTitle}
+    
+
+append BodyEndScript
+  script(src="/javascripts/contents.js")

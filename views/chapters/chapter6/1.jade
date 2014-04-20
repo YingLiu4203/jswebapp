@@ -1,0 +1,22 @@
+extends ../chapterLayout
+
+block ChapterIntroduction
+  :markdown
+    This chapter is based on the following resources
+
+    - [The Node Beginner Book](http://www.nodebeginner.org/)
+    - [Node book by Mixu](http://book.mixu.net/)
+    - [Node.js Manual](http://nodejs.org/api/)
+
+block SectionContent
+  :markdown
+    Short answer: Node.js is a platform that runs JavaScript programs efficiently. 
+
+    JavaScript was and still is primarily a client side programming language that runs inside a browser. In 2009, [Ryan Dahl](http://tinyclouds.org/) took the Google V8 JavaScript engine, enhanced it with network and I/O functions and made it an independent platform for running JavaScript programs.According to nodejs.org: "Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices." 
+
+    Therefore the primary goals of Node.js is to build fast scalable network applications. Web application is a network application that should run fast and should be scalable to handle heavy user access. Being a plaftofrm for high performance web application, Node.js has two improtant features:
+  
+    - Non-blocking I/O: it is event driven and every I/O call has a callback function to be called when the I/O call is done.
+    - Low-level: It exposes all network and I/O operation details and gives you full control of the newtwork protocols. 
+
+    As a web developer, you will appreciate the choice that you can use the same programming language in both client and server side. JavaScript is simple and powerful. Though it is easy to mess up, the chance that you mess up something is much lower than using two different languages. 

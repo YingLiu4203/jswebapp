@@ -1,0 +1,135 @@
+extends ../chapterLayout
+
+block SectionContent
+  :markdown
+    To run the code example in this section, you need to install MongoDB first. Plase go to http://docs.mongodb.org/manual/installation/ and install the appropriate MongoDB package for your operating systems. It is easy to install MongoDB driver when you have Node.js and npm installed properly. The command is as the following. 
+        
+        `npm install mongodb`
+
+    To access MongoDB, you need to create a MongoClient and connect to the database. The code is:
+
+        var mongoClient = require('mongodb').MongoClient;
+        mongoClient.connect("mongodb://localhost:27017/TestDb", function(err, db) {
+          if (!err) {
+            console.log("Connected to MongoDB");
+            // use db to access the MongoDB
+          } else {
+            console.log("Failed to connect to MongoDB. Error: " + console.dir(err));
+          }
+        });
+
+    The connect() method requiers the database localation (an URI path). The last part of the URI, TestDb, is the database name. If it does not exist, MongoDB will create the database when you create data in it. The default port number of MongoDB is 27017. The second parameter is a function that is called when the connection operation is completed. The err parameter is set when there is an error in the connection. If it is null, the connection is completed without error. You can use the second paramter, db, to access the database. The following code based on the [mongodb driver example][]. 
+
+        function exitOnError(err, result) {
+          if (err) {
+            logAndExit(err);
+          }
+        }
+
+        function logAndExit(err) {
+            console.log("Operation error: " + err);
+            process.exit(1);
+        }
+
+        var mongoClient = require('mongodb').MongoClient;
+        mongoClient.connect("mongodb://localhost:27017/TestDb", function (err, db) {
+          if (!err) {
+            console.log("Connected to MongoDB.");
+
+            // use db to access the MongoDB, first create a 'test' collection
+            db.createCollection('test', function (err, collection) {
+              console.log("test collection was created.");
+              if (err) {
+                logAndExit(err);
+              }
+
+              // clear all data in case we run it many times    
+              collection.remove(exitOnError);
+
+              // some objects to be inserted 
+              var doc1 = {
+                'hello': 'doc1'
+              };
+              var doc2 = {
+                'hello': 'doc2'
+              };
+              var docs = [{
+                'hello': 'doc3'
+              }, {
+                'hello': 'doc4'
+              }];
+
+              // we can insert an individual object or an array of objects
+              collection.insert(doc1, exitOnError);
+              collection.insert(doc2, exitOnError);
+              collection.insert(docs, exitOnError);
+              console.log("4 docs were inserted.");
+
+              // update an object, the first parameter specifies which object to update
+              collection.update({
+                'hello': 'doc1'
+                }, {
+                  // $set is an opertor that set a new value to an attribute
+                  $set: {
+                    'hello': 'newDoc1'
+                  }
+                }, 
+                exitOnError
+              );
+              console.log("doc1 updated.");
+
+              // remove an object, the first parameter specifies which object to remove
+              collection.remove(
+                {
+                  'hello': "doc3",
+                }, 
+                exitOnError
+              );
+              console.log("doc3 removed.");
+
+              // find documents
+              collection.findOne({ 'hello': 'newDoc1' }, function (err, result) {
+                console.log("findOne() result: " + result.hello);
+              });
+        
+              console.log("list all docs: ");
+              collection.find().toArray(function (err, items) {
+                if (!err) {
+                  for (var index = 0; index < items.length; index++) {
+                    console.log(items[index]);
+                  }
+
+                  // you should close database after the last operation
+                  console.log("close database after use");
+                  db.close();
+                }
+              });  // end of collection.find()
+
+            }); // end of db.createCollection()
+
+          } else {
+            logAndExit(err);
+          }
+        });
+
+        
+    As in other Node.js programs, most MongoDB operations are asynchronous that take a callback function. To simplify the code example, we first define tow help functions used in our code. Many MongoDB operation callback function has the signature of `function(err, result)`, thus we define an error handling function that exit on error. When the err parameter is not null, the function calls the second function that logs the err object and exit. The rest of the code is easy to understand with the code comments and the output messages. If you save the code to a file testDb.js and run `node testDb`, the output is as following. 
+    
+    <samp>
+      Connected to MongoDB.  
+      test collection was created.  
+      4 docs were inserted.  
+      doc1 updated.  
+      doc3 removed.  
+      list all docs:  
+      findOne() result: newDoc1  
+      { _id: 50d133995bb1154401000001, hello: 'newDoc1' }  
+      { hello: 'doc2', _id: 50d133995bb1154401000002 }  
+      { hello: 'doc4', _id: 50d133995bb1154401000004 }  
+      close database after use
+    </samp>
+
+    MongoDB supports many updating and query operations. More examples can be found in [mongodb driver examples][] Web site. 
+
+    [mongodb driver example]: http://mongodb.github.com/node-mongodb-native/api-articles/nodekoarticle1.html
+    [mongodb driver examples]: https://github.com/mongodb/node-mongodb-native/tree/master/examples

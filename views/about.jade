@@ -1,0 +1,40 @@
+extends layout
+
+block BodyContent
+  :markdown
+    ## About This Book (Web Site)
+  
+    This web site is both a book and a Web site that demonstrate the JavaScript Web 
+    application development. It is based on [HTML5][], [CSS3][], [jQuery][], [Node.js][], 
+    [Express][] and [MongoDB][]. The site has the following features that should 
+    held by all modern web sites: 
+  
+    - works decently even when JavaScript is disabled. This is a
+     requirement of the so-called "[Progressive Enhancement][]".
+    - has a consistent view in all browsers.
+    - works for different devices. This is a requirement of 
+     the so-called "[Responsive Web Design][]". 
+    - is based on HTML5 and CSS3 but still works in old browers. 
+    - has meaningful URL paths. 
+    - has good support of web accessibility.  
+
+    ## More Details
+
+    This web site uses the [Jade][] template engine for Web page layout. It uses 
+    the Jade version of the [HTML5 boilerplate][] to handle the differences in 
+    diffeernt Web Browsers and devices. Most contents are written in the [Markdown][] syntax. 
+    The [marked][] JavaScript parser is used because it **CORRECTLY** generates expected HTML 
+    results. 
+
+    [html5]: http://html5.org/
+    [css3]: http://www.w3.org/TR/CSS/
+    [jquery]: http://jquery.com/
+    [Node.js]: http://nodejs.org/
+    [express]: http://expressjs.com/
+    [MongoDB]: http://www.mongodb.org/
+    [Progressive Enhancement]: http://en.wikipedia.org/wiki/Progressive_enhancement
+    [Responsive Web Design]: http://www.alistapart.com/articles/responsive-web-design/
+    [Jade]: http://jade-lang.com/
+    [html5 boilerplate]: https://github.com/dmotz/jade-html5-boilerplate
+    [Markdown]: http://daringfireball.net/projects/markdown/
+    [marked]: https://github.com/chjj/marked

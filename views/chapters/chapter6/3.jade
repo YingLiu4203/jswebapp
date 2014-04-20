@@ -1,0 +1,58 @@
+extends ../chapterLayout
+
+block SectionContent
+  :markdown
+    A web application is a network program that responds to HTTP requests. Node.js has several objects that you can use to write a web application.
+
+    A web appliation needs an HTTP server to listen on a network port and accept HTTP requests. To use the HTTP server, you need to import the http module and store it in a variable:
+
+        var http = require('http');
+
+    The http object has a createServer() method to create a new HTTP server object. The method may take a callback listener function as its argumnet. A listener function is called when an HTTP request is received by the HTTP server. To create a new HTTP server object and listen on a port, you write:
+
+        var HTTP_PORT = 8888;
+        var httpServer = http.createServer(requestListener);
+        httpServer.listen(HTTP_PORT);
+
+    The requestListener is a function that has two parameters: a request and a response. The HTTP server will call it and supply the two arguments. A request parameter is an instance of http.ServerRequent object that contains data in an HTTP request. A response parameter is an instance of http.ServerResponse object that is a stream object that you can write HTTP heads and contents that will be sent as response to the HTTP request. To write HTTP head and content and send them, you write code: 
+
+        function requestListener(request, response) {
+            response.writeHead(200, {"Content-Type": "text/plain"});
+            response.write("Hello World");
+            response.end();
+        }
+
+    The call of response.end() signals to the server that this response message is complete and the data can be sent as response to the HTTP request. 
+
+    Put all things together, you write the following code in a file named helloWorld.js. 
+
+        var http = require('http');
+        var HTTP_PORT = 8888;
+        var httpServer = http.createServer(requestListener);
+        httpServer.listen(HTTP_PORT);
+
+        function requestListener(request, response) {
+            response.writeHead(200, {"Content-Type": "text/plain"});
+            response.write("Hello World");
+            response.end();
+        }
+
+    You can run the script file using the command:
+     
+        node helloWorld.js
+
+    Now open a browser and type http://localhost:8888, your browser should display 
+
+    <samp>Hello World</samp>
+
+    For the above simple code, we can remove unnecessary variables and function name by writing code like below: 
+
+        var HTTP_PORT = 8888;
+
+        require('http').createServer(function(request, response) {
+            response.writeHead(200, {"Content-Type": "text/plain"});
+            response.write("Hello World");
+            response.end();
+        }).listen(HTTP_PORT);
+
+    However, we should not go too far to make the code difficult to read and maintain. We keep the HTTP_PORT variable because the name reprents the meaning of the magic number 8888. Additiionally, if the number is used in many places, it is easy to change it with a single variable. 

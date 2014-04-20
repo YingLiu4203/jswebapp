@@ -1,0 +1,65 @@
+extends ../chapterLayout
+
+block SectionContent
+  :markdown
+    In JavaScript, only a function defines a new scope for namespace. Variables and functions not defined in a function are in the global namespace. For a big program that declares many variables and functions and uses several third party JavaScript libraries, it is easy to have different things using the same same. The namespace pollution introduces hard-to-find bugs. Aiming at large server side applications, Node.js uses modules to organize program files, variable names and function names. 
+
+    ### File and Modules
+
+    In Node.js, files and modules are in one-to-one correspondance. A JavaScript source code file is a module. Variables and functions defined in a module is invisible outside the module unless you export them.  For example, you create a circle.js file that contains some functions that can be used by other JavaScript file. The file looks like the following. 
+
+        var PI = Math.PI;
+
+        exports.area = function (r) {
+          return PI * r * r;
+        };
+
+        exports.circumference = function (r) {
+          return 2 * PI * r;
+        };
+
+    In Node.js, exports is a built-in object in each module. By assigning variables or functions as properties of the exports object,  you make those variables and functions accessible to other JavaScript modules. The circle module exports two functions: area() and circumference(). To use the exported objects in another file, you need to call the require() function. For example, in a different filed named calculate.js in the same directory, you write
+
+        var circle = require('./circle.js');
+        console.log( 'The area of a circle of radius 4 is ' + circle.area(4));
+
+    The require() function takes a module identifier as its augument. Node.js will load the module and create an object for the loaded module. The object has all exported variables and functions. 
+
+    The module identifier you pass to the require() function can be an exact filename such as circle.js or a name without a postfix. If the exact filename is not found, Node.js will append .js, .json, and then .node to the filename and tries to load that module. So the following code also works:
+
+        var circle = require('./circle');
+
+    Core modules such as http will be searched first, then the filename in the user's filesystem. 
+
+    ### Loading from node_modules Folders
+
+    The module identifier can inclue filename path, either relative or absolute path. An absolute path starts with '/'. For example, '/home/alice/MyProject/circle' is an absolute path. A relative path starts with either './' for the current path or '../' for the parent path. For example, './circle' is a relative path. Node.js will search the specified path for the required module. 
+    
+    If a module identifier does not begin with '/', '../', or'./', i.e., no path specified, then Node.js starts at the parent directory of the current module, appends /node_modules and attempts to load the module from that location. If it is not found there, then it moves to the parent directory of the parent directory of the current module, and so on, until the root of the path is reached. For example, if the file at '/home/alice/MyProject/foo.js' calls `require('bar.js')`, then node would look in the following locations, in this order:
+
+    - /home/alice/MyProject/node_modules/bar.js
+    - /home/alice/node_modules/bar.js
+    - /home/node_modules/bar.js
+    - /node_modules/bar.js
+
+    The above search order allows programs to control their library dependencies by searching thier local folders first.   
+
+    ### Folders as Modules
+
+    It is a common practice in Node.js to put a program or a library and its dependencies into a single folder tree. The root of the folder tree serves as the single entry point of that library. Node.js attempts to load a module based on the description of the package.json file or a default filename. 
+
+    The package.json file in the root of the folder specifies both a module identifier and a main module file. For example, if the package.json file in a folder at /home/alice/MyProject has the following content:
+
+        { 
+          "name" : "foo-library",
+          "main" : "./lib/foo-library.js" 
+        }
+
+    Then `require('/home/alice/MyProject/foo-library')` tells Node.js to load /home/alice/MyProject/lib/foo-library.js.
+
+    If a package.json file does not exist in the directory and a module identifier only contains a folder pathname, for example, `require('/home/alice/MyProject/foo-library')`, then Node.js will attempt to load an index.js or index.node file out of that directory. In the above example, if there is not a package.json file in /home/alice/MyProject/foo-library, Node.js will attemp to load the following two files:
+
+    - /home/alice/MyProject/foo-library/index.js
+    - /home/alice/MyProject/foo-library/index.node
+
+  

@@ -1,0 +1,159 @@
+extends ../chapterLayout
+
+block SectionContent
+  :markdown
+    to demonstrate the features of the express framework and the jade view engine, the generated default application files are revised in this section to write a simple program that has two web pages. The generated app.js has two views. It is good enough for a demo project and there is no change needed for app.js. We start with the layout.jade because it defines the overal layout of our Web pages. 
+
+    ## views/layout.jade
+
+    The code in this file is changed to the following:
+        
+        doctype 5
+        html
+          head
+            title Jade Example
+            link(rel="stylesheet", href="/stylesheets/style.css")
+          body
+            block content
+            block footer
+              #footer
+                p Page footer. Link to  
+                  a(href='/') Home
+
+      It defines the general layout of a Web page that has a head and a body. In the `<body>` section, it defines two blocks: a content block and a footer block. The content block is to be defined in views that extend this layout view. In the footer block, it has a default implementation that has a `<div id='footer'>` element. Inside the element, there is a `<p>` element that has some text and a link to the home page. Again, you can use this default implementation or replace it with a new footer. 
+
+    ## routes/index.js
+
+    The index.js file is changed with a different `title` value:
+
+        exports.index = function(req, res){
+          res.render('index', { AppName: 'Sample Node.js App' });
+        };
+
+    It renders a view file named index.jade and passes an object with a property `AppName`. The property value is 'Sample Node.js App'. 
+
+    ## views/index.jade
+
+    The index.jade view has the following code: 
+
+        extends layout
+
+        block content
+          h1 A Sample Applicaton 
+          p Welcome to \#\{AppName\}. This is a demo of Node.js, express framework and jade template engine.  
+            | Please click  
+            a(href='/users') users
+            |  to access user information
+
+    This view file extends layout view and replace its content block. According to the [jade document][], you use `|` to put a large body of text to an HTML element. A nested HTML element such as `<a>` does not need a leading `|`. 
+
+    ## routes/user.js
+    
+    We change the user.js to use JavaScript objects. The user.js defines a constructor and creates an array of three objects. Then it renders users.jade view file with a parameter of the array of three objects. The code is as following:
+
+        function User(name, email) {
+            this.name = name;
+            this.email = email;
+        }
+
+        // Dummy users
+        var DummyUsers = [
+            new User('Alice', 'Alice@test.com')
+          , new User('Bob', 'Bob@test.com')
+          , new User('Cindy', 'Cindy@test.com')
+        ];
+
+        exports.listUsers = function(req, res){
+          res.render('users', { users: DummyUsers })
+        };
+
+    ## views/users.jade
+
+    We create a new file named users.jade. It inherits the layout.jade and use the user.jade to list each user in the users array. 
+
+        extends layout
+
+        block content
+          h1 User List
+            #users
+              for user in users
+                include user
+
+    The interesting thing is that jade allows you to iterate an array, as shown in the code `for user in users`. The `user` object is passed to the nested content. Again, the user.jade file is included here to display user information. For a small program like this, it might not be a good idea to have one more file. However, for a large Web site, organizing views in different files allow better control and more code reuse because the user information view might be used in another view. 
+
+    ## views/user.jade
+    The user.jade displays user.name in a `<h2>` tag and user.email in a `<div class='email'>` tag. 
+    
+        .user
+          h2= user.name
+          .email= user.email
+
+    ## The Output of /  (Home Page)
+
+    The home page generate the following screen and the following HTML code. 
+
+    ![Jade Sample Home Image](/images/JadeSampleHome.png)
+
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title> Jade Example </title>
+            <link rel="stylesheet" href="/stylesheets/style.css">
+          </head>
+          <body>
+            <h1> A Sample Applicaton </h1>
+            <p>
+              Welcome to Sample Node.js App. This is a demo of Node.js, express framework and jade template engine. Please click <a href="/users"> users </a> to access user information
+            </p>
+            <div id="footer">
+              <p> 
+                Page footer. Link to <a href="/"> Home </a>
+              </p>
+            </div>
+          </body>
+        </html>
+    
+    ## The Output of /users 
+
+    The /users page generate the following screen and the following HTML code.
+
+    ![Jade Sample Users Image](/images/JadeSampleUsers.png)
+
+        <!DOCTYPE html>
+        <html>
+          <title>Jade Example</title>
+            <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" />
+          </head>
+
+          <body>
+            <h1>User List</h1>
+
+            <div class="user" id="users">
+              <h2>Alice</h2>
+              <div class="email">
+                Alice@test.com
+              </div>
+
+              <div class="user">
+                <h2>Bob</h2>
+                <div class="email">
+                  Bob@test.com
+                </div>
+              </div>
+
+              <div class="user">
+                <h2>Cindy</h2>
+                <div class="email">
+                  Cindy@test.com
+                </div>
+              </div>
+            </div>
+
+            <div id="footer">
+              <p>Page footer. Link to <a href="/">Home</a></p>
+            </div>
+
+          </body>
+        </html>
+
+    [jade document]: https://github.com/visionmedia/jade#readme

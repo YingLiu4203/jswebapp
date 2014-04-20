@@ -1,0 +1,59 @@
+extends ../chapterLayout
+
+block SectionContent
+  :markdown
+    Here we develop a simple Web application by putting files into different modules.  First, create a server.js file
+
+        function onRequest(request, response) {
+          console.log("Request received.");
+          response.writeHead(200, {"Content-Type": "text/plain"});
+          response.write("Hello World");
+          response.end();
+        }
+
+        exports.onRequest = onRequest;
+
+    The server.js exports a method called onRequest. Then we create an index.js file
+
+        var http = require("http");
+        var server = require("./server");
+
+        http.createServer(server.onRequest).listen(8888);
+        console.log("Server has started.");
+
+    Finally,  run the web application as
+        
+        node index.js
+
+    In the console (the screen you run node index.js), it displays: 
+
+    <samp>Server has started.<samp>
+
+    When you open http://localhost:8888 in a browser, it displays the Hello World message. However, in the server console, you see two log messages: 
+
+    <samp> 
+      Request received.  
+      Request received. 
+    </samp>
+
+    You only requested the page once but the HTTP server received two requests. To figure out what happened, change the server.js as following:
+
+        var url = require("url");
+        function onRequest(request, response) {
+          var pathname = url.parse(request.url).pathname;
+          console.log("Request received for " + pathname);
+          response.writeHead(200, {"Content-Type": "text/plain"});
+          response.write("Hello World");
+          response.end();
+        }
+        exports.onRequest = onRequest;
+
+    After you  open http://localhost:8888 in a browser, the output in console becomes
+
+    <samp>
+      Server has started.  
+      Request received for /  
+      Request received for /favicon.ico
+    </samp>
+
+    The browswer automatically requires one more file named favicon.ico, which is the web site icon (or URL icon) displayed in front of the URL. The browser will igonre the response if the resturned content is not favicon.ico.

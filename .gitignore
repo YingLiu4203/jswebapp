@@ -1,0 +1,5 @@
+node_modules
+*.sln
+*.log
+*.swp
+.dbshell

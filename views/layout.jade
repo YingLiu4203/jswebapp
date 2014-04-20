@@ -1,0 +1,67 @@
+!!! 5
+
+//-an HTML5 layout based on https://github.com/dmotz/jade-html5-boilerplate
+
+//if lt IE 7
+  html.no-js.lt-ie9.lt-ie8.lt-ie7(lang='en')
+//if IE 7
+  html.no-js.lt-ie9.lt-ie8(lang='en')
+//if IE 8
+  html.no-js.lt-ie9(lang='en')
+//[if gt IE 8]><!
+html.no-js(lang='en')
+  //<![endif]
+  head
+    
+    block HeadMeta
+      meta(charset='utf-8')
+      //- not used because http://validator.w3.org/ validation error
+      //- meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+      meta(name='description', content='JavaScript programming for Web Application Development')
+      meta(name='viewport', content='width=device-width')
+
+    block HeadTitle
+      title Essential JavaScript for Web Application Development
+
+    block HeadCss
+      link(rel='stylesheet', href='/stylesheets/html5style.css')
+      link(rel='stylesheet', 
+        href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.all.css')
+      link(rel='stylesheet', href='/stylesheets/bookstyle.css')
+
+
+    block HeadScript
+      //- script(src='/javascripts/libs/modernizr-2.5.3.min.js')
+    
+  body 
+    #BodyHeader JavaScript for Web Application Development
+
+    include includes/navMenu
+
+    #BodyContent
+      block BodyContent
+        p Welcome to #{pageTitle}    
+    
+    #BodyFooter
+      block BodyFooter
+        |Copyright &copy; 2012 Ying Liu 
+        a(href="mailto:info@jswebapp.com")  Contact
+
+    block BodyEndScript
+      //-JavaScript at the bottom for fast page loading, load from local if 
+        the CDN is unavailable
+      
+      //- jQuery, jQueryUI and plugins
+      script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+      script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js')
+      script(src="/javascripts/libs/jquery.cookie.js")
+     
+      //-client side script
+      script(src='/javascripts/ying-jQuery-ui.js')
+    
+      //- Code for google analytics
+      script
+        var _gaq=[['_setAccount','UA-32608020-1'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));

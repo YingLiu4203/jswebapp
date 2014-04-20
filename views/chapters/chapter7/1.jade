@@ -1,0 +1,49 @@
+extends ../chapterLayout
+
+block ChapterIntroduction
+  :markdown
+    Node.js provides the basic functions to receive HTTP requests and write HTTP responses. To develop a commercial Web site that has complex processing logic and hundreds or thousands of Web pages, you need more infrastructure functions provided by othe JavaScript librearies built for Node.js. This chapter introduces [express framework](http://expressjs.com/) , a light but very flexible Node.js Web application framework that simplifies many Web application development tasks. 
+
+block SectionContent
+  :markdown
+    The best place to start learning express is its [Guide Document][]. For a quick start, you can install express globally and use it to generate an application. Go to a folder that you want to create your application and run the following commands:
+        
+        npm install -g express  
+        express myApp  
+        cd myApp  
+        npm install
+
+    The first command intalls express globally for all applications. The second command creates a subdirectory myApp in the current directory and creates the structure of an express application. The last command installs all dependent libraries used by the myApp application. The depdencies are described in package.json in myApp folder. It has the following content:
+
+        {
+          "name": "application-name",
+          "version": "0.0.1",
+          "private": true,
+          "scripts": {
+            "start": "node app"
+          },
+          "dependencies": {
+            "express": "3.0.4",
+            "jade": "*"
+          }
+        }
+
+    The package.json first defines the name and version of this application. Together they form the  identifier of the program. The private attribute indicates whether you want to keep your program private or not. The "true" value tells npm to not publish this program. 
+
+    In the scripts attribute, it defines a start script command. When you run `npm start`, npm will executes `node app`, which is the command to start this apllication. 
+
+    The dependencies attribute lists other libraries used by this program. It uses express version 3.0.4 and any version of jade. [jade][] is a template engine that easies the tideous tasks of writing HTML pages. 
+
+    You can provide more information such as description and author in package.json file. Details can be found in [npm json document][].  
+
+    To run the application, you can either execute `npm start` or `node app` in command line. The console will display:
+
+    <samp>Express server listening on port 3000</samp>
+
+    Then in your browser, type the url http://localhost:3000/, the browser will show a Web page similar to the following image: 
+
+    ![Express Quick Start Image](/images/ExpressQuickStart.png)
+
+    [Guide Document]: http://expressjs.com/guide.html
+    [jade]: http://jade-lang.com/
+    [npm json document]: https://npmjs.org/doc/json.html

@@ -1,0 +1,36 @@
+extends ../layout
+
+append HeadCss
+  link(rel='stylesheet', href='/stylesheets/chapterstyle.css')
+
+block BodyContent
+  #chapterHeader
+    block ChapterHeader
+      include includes/sectionNav
+      if sectionNum !== 1
+        .chapterTitle
+          |~~ Chapter #{chapterNum} #{chapters[chapterNum - 1].chapterTitle} ~~
+      
+  #chapterContent
+    #sectionHeader
+      block SectionHeader
+
+    if sectionNum === 1
+      .chapterIntroduction
+        h1 Chapter #{chapterNum} #{chapters[chapterNum - 1].chapterTitle}
+        block ChapterIntroduction
+
+    .sectionContent
+      .sectionTitle
+        h2 #{chapterNum}.#{sectionNum} 
+          | #{chapters[chapterNum - 1].sections[sectionNum -1].sectionTitle}
+      
+      block SectionContent
+        p Sample content for chapter #{chapterNum} section #{sectionNum}
+    
+    .sectionFooter  
+      block SectionFooter
+        include includes/sectionNav
+
+ 
+      

@@ -1,0 +1,84 @@
+﻿
+/* The general body setting
+  Put the content to the middle 
+  and set max-width to make it fit any screen
+  */
+body {
+  margin: 0 auto;
+  background: url(/images/jswebapp_bg_dark.jpg) repeat;
+  font-family: "Trebuchet MS", Verdana, Helvetica, Arial,sans-serif;
+  max-width: 960px;
+}
+
+/* The page header
+  
+  */
+#BodyHeader {
+  text-align: center;
+  padding-top: 0.2em;
+  color: #496998;
+  background-color: #B2D7EA;
+  border-bottom: 2px solid #496998;
+  font-size: 1.5em;
+  padding: 0.3em;
+}
+
+/* The page menu
+  */
+nav.menu {
+  background-color: #B2D7EA;
+  /* need this to show the background-color*/
+  overflow: hidden;
+  padding: 0.3em 0;
+}
+
+
+nav.menu a {
+  float: left; 
+  margin-left: 1em;
+}
+
+  nav.menu a .ui-button-text {
+    line-height: 1em;
+  }
+
+/* The Page content
+  */
+#BodyContent {
+  clear: both;
+  background-color: #fff;
+  padding: 0.2em 1em;
+  border: 3px solid #CBE192;
+  overflow: hidden;
+}
+
+/* the Page footer
+  */
+#BodyFooter {
+  padding-top: 0.2em;
+  text-align: center;
+}
+
+/* the contents page
+  */
+#contents a {
+  text-decoration: none;
+}
+
+#contents .tocChapter {
+  display: block;
+  font-size: 1.2em;
+  margin: 0.5em 0;
+}
+
+#contents button.ui-button {
+  float: left;
+  height: 1em;
+  width: 0.8em;
+  margin-right: 0.5em;
+}
+
+#contents a.tocSection {
+  margin-left: 2em;
+  display: block;
+}

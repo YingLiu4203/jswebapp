@@ -1,0 +1,53 @@
+//- the input is chapterNum, sectionNum and 
+//- the TOC object chapters that has an array of chapters
+//- and sections
+
+//- Texts in links, displayed as hint after applying jQuery button function
+- var PrevSectionText = 'Prev'
+- var NextSectionText = 'Next'
+
+//- disaply flags
+- var ignorePrevFlag = false
+- var ignoreNextFlag = false
+
+//- the default href value of Prev and next
+- var prevChapterLink = chapterNum
+- var prevSectionLink = sectionNum - 1
+- var nextChapterLink = chapterNum
+- var nextSectionLink = sectionNum + 1
+
+//- to make code simpler, we assume that each chapter has at least two sections
+//- the first section in the first chapter, only display next
+if chapterNum == 1 && sectionNum == 1 
+  - ignorePrevFlag = true
+else
+  // the last book section only display prev
+  - var numOfChapters = chapters.length
+  - var numOfSections = chapters[chapterNum - 1].sections.length
+  if chapterNum == numOfChapters && sectionNum == numOfSections
+    - ignoreNextFlag = true
+  else
+    // the first section in the current chapter? 
+    if sectionNum == 1 
+      - prevChapterLink = chapterNum - 1
+      - prevSectionLink = chapters[prevChapterLink - 1].sections.length
+    else
+      // the last section in the current chapter? 
+      if sectionNum == numOfSections
+        - nextChapterLink = chapterNum + 1
+        - nextSectionLink = 1
+
+if (! ignorePrevFlag) 
+  a.sectionNav.prevSection(
+    href='/chapter/#{prevChapterLink}/section/#{prevSectionLink}')
+    != PrevSectionText
+
+if (! ignoreNextFlag) 
+  a.sectionNav.nextSection(
+    href='/chapter/#{nextChapterLink}/section/#{nextSectionLink}')
+    != NextSectionText  
+  
+
+  
+
+ 

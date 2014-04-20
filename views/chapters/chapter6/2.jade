@@ -1,0 +1,31 @@
+extends ../chapterLayout
+
+block SectionContent
+  :markdown
+    With Node.js, you can run JavaScript code in one of two modes: the interactive mode or the script mode. In the interactive mode, you type a JavaScript statement and hit retrun. Node.js executes the statement and gives you feedback on the statement. In the script mode, you type JavaScript statements in a file that usually has an postfix of .js and you use Node.js to execute all statements in the file. 
+  
+    Simply type node and you enter Interactive mode. Node.js displays a command prompt > and waits for you to type a JavaScript statement or a command. For example, type `console.log("Hello World");` after the > prompt
+    
+     <samp> > console.log("Hello World");</samp>
+
+    In the above code, the console is a bult-in Node.js object. Its log method writes a string to the console. Usually the console is the current window screen. Node.js executes the statment that writes "Hello World" to the screen. It also reports the result of this method call. Because console.log() method returns nothing, the result is undefined. After you hit enter, Node.js will display  
+
+    <samp>Hello World  
+      undefined
+    </samp>  
+    
+    Usually you use interactive mode to try something out because it gives you immediate feedback of a JavaScript statement. 
+    
+    Alternatively, you can write the same statement in a script file. Using a text editor such as notepad to create a file named hello.js and type the following statement in the file:
+    
+        console.log("Hello World");
+
+    Save the file and close the text editor. In the same directory, run the command:
+    
+        node hello.js
+
+    Node.js executes the file and displays 
+    
+    <samp>Hellow World</samp>
+
+    You use the script mode to run a JavaScript program. 

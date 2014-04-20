@@ -1,0 +1,68 @@
+extends ../chapterLayout
+
+block ChapterIntroduction
+  :markdown
+    This chapter briefly gives an overview of JavaScript langauage and its key concepts. The following chapters will discuss the langauge concepts and usage in great details. There is a good reason for this iterative approach. Many JavaScript language concepts are depend on each other and are often used together. For example, a function is a callable object. An object can be created by a function. Which one should we cover first? A breif introduction of most language concepts here will make the discussion in the following chapters easier. 
+
+block SectionContent
+  :markdown
+    A programming language such as JavaScript allows us to perform a variety of computational and logical tasks. Two basic elements of those tasks are data and operation.
+    
+    A piece of data is call a **value** in JavaScript. Examples of values are `1`, `-2`, `55.8`, `"Hello"`, and `"Have a nice day"`. As in our daily life, we distinguish the numbers such as `1`, `-2`, and `55.8` from the texts `"Hello"`, and `"Have a nice day"` because we use them differently. We usually do lot of arithmatic compuation using numbers, not texts. In JavaScript, we use the concept of data type to specify a set of values. A **data type** defines what are valid values in that type and what operations we can apply on those values.
+    
+    The **Number** type in JavaScript include integers and floating-point values. Values such as `0`, `208`, `-73`, `0.5`, and `49.238` are Number values. JavaScript allows you to use e-notation to write a floating-point value. The e-notation consists of a number (integer or floating-point) followed by an letter `E` or `e`, followed by a decimal integer that specifies the pwoer of 10 to multiply by. For example, `0.49238e2` and `4.9238E1` specify the same floating-point value of `49.238`. The value `0.49238e2` is intepreted as the multiplication of `0.49238` and `100` while the value `4.9238E1` is intepreted as the multiplication of `4.9238` and `10`.
+
+    JavaScript defines a set of built-in **operators**. Common algrithmatic operations such as addition, subtraction, operation and multiplication are provided by the corresponding built-in operators: **`+`**, **`-`**, **`*`** and **`/`**. The arithmatic operations are straightfoward in JavaScript: 
+      
+        1 + 1
+        1 / 2
+        2 - 0.5
+        4 * 38.2
+
+    The space between the value and operator is optional. `1 + 1` is the same as `1+1` but the extra space improves the code readability. 
+    
+    The **String** type defines a set of values. A String value is a sequence of characters enclosed in a pair of single quotation (**`'`**) or a pair of double quotation (**`"`**). `"Hello"`, `"Have a nice day"`, `'Hello'`, and `'Have a nice day'` are valid String values. A String value has to use the same  character for the beginning and closing quotation. `"Have a nice day'` is not a valid String value because it is incomplete. The `'` character at the end is not interpreted as the closing quotation. JavaScript interprets it as a normal string character. Therefore you can use `'` in a String value defined by a pair of `"` or use `"` in a string defined by a pair of `'`. For example, `"Don't do that"` and `'He said: "Hello" to me'` are valid strings. To use the same string quotation character inside a string, use an **escape** character **`\\`** before the quotation character. For example, `"Don't do that"` is the same as `'Don\\'t do that'`. For the same reason, `'He said: "Hello" to me'` is the same as `"He said: \\"Hello\\" to me"`. 
+
+    **Concatenation** is a commonly used operation on String values. In JavaScript, the **`+`** operator is used to concatenation two strings. `"Hello" + 'World'` generates a new String value `"Hello World"`.
+    
+    To support logic operations, JavaScript defines a **Boolean** data type that only has two values: **`true`** and **`false`**. JavaScript is a **case-senstive** programming language. Therefore, `True`, `TRUE`, `faLse` and `FALSE` are not valid Boolean values. 
+
+    JavaScript defines three **logic operators**: **`!`** is the NOT operator that flips a `true` value to a `false` value or a `false` value to a `true` value. **`&&`** is the AND operator that gives a `true` value if both the value before it and the value after it are true. **`||`** is the OR operator that gives a `true` value if either the value before it or the value after it is true. For example, the result of `true && false` is a `false` value while the result of `true || false` is a `true` value. 
+
+    In addition to the logic operators, relational operators such as less-than (`<`), greater-than (`>`), equal-to (`==`) or not-equal-to (`!=`) also generates a Boolean value. For example, the operation of `3 > 5` gives a `false` value result. 
+
+    Values such as `0`, `1`, `0.5`, `4.9238e2`, and "Hello World" are called **literal values** because these values are literally written out using a grammar that is defined by their data types.   
+
+    The Number, String, and Boolean types are **primitive types** or **simple types** in JavaScript because a value of these types is a single piece of data. They are primitive in the sense that they are the simple (atomic) data types that can be used in a non-primitive (or complex) data type that may have mutiple values.
+
+    JavaScript uses the **Object Type** to define a value that is a collection of values. To distinguish the values in an Object value, JavaScript introduces the **Property** concept. A property is a pair of a name and a value. The name is an identifier used to access the property value. An **identifier** is a sequence of characters that must start with a $, a _ or a letter (not a numeric character).  After the first character, the identifier can have more characters from the set of $, _, letters, and numeric characters. Unlike a String value, identifiers are not enclosed in a pair of single quotation or double quotation characters. For example, `Name`, `age` and `$name` are valid identifiers. An **object** is a a collection of properties. For example, the following are two object literal values: 
+
+        {Name: "Alice", Age: 19, Major: "Business"}
+
+        {
+          Title: "Essential JavaScript",
+          Author: {
+            Name: "Alice", 
+            Age: 19, 
+            Major: "Business"}
+          }
+        }
+
+    An object literal value (or just literal) is created inside a pair of curly braces. Preoperties are separated by commas. The name and the value of a property are separated by a colon. The first value is an object that has three properties identified by three names: `name`, `age`, and `Major`. Each preoperty has a primitive value. The second object literal has two names: `Title` and `Author`. The value of the `Author` property is another object that has three properties. Though you can write an object using a single line, using spaces and multiple lines appropriately usually makes the code more readable. 
+
+    The properties of an object can be accessed using a dot notation. For examples:  `{Name: "Alice, Age: 19, Major: "Business"}.Name` gives a primitive String value of `"Alice"`; `{Name: "Alice, Age: 19, Major: "Business"}.Age` gives a primitive Number value of `19`; the following code gives another object value of `{Name: "Alice", Age: 19, Major: "Business"}`:
+
+        {
+          Title: "Essential JavaScript",
+          Author: {
+            Name: "Alice", 
+            Age: 19, 
+            Major: "Business"
+          }
+        }.Author
+
+
+
+    
+    
+     

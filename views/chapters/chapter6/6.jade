@@ -1,0 +1,57 @@
+extends ../chapterLayout
+
+block SectionContent
+  :markdown
+    A web site usually has multiple pages that can be accessed using differnt URL pathnames. Using Node.js modules, you can have different handlers for different pathnames. Here we expand the previous program to have two pages. The index.js stays the same because of our modular design: 
+
+        var http = require("http");
+        var server = require("./server");
+
+        http.createServer(server.onRequest).listen(8888);
+        console.log("Server has started.");
+
+    To server different pages, the server.js is changed as the following: 
+
+        var url = require("url");
+        var handlers = {
+          "/": "home",
+          "/product": "product"
+        }
+   
+        function onRequest(request, response) {
+          var pathname = url.parse(request.url).pathname;
+          console.log("Request received for " + pathname);
+  
+          var page = handlers[pathname];
+          if (page) {
+            var handler = require(page);
+            handler.respond(request, response);
+          }
+  
+        }
+
+        exports.onRequest = onRequest;
+
+    The exported onRequest method will parse the request URL and extract the last part of the request. It loads corresponding module based on the request path. If the request "/", it loads the home module. If the request is "/product", it loads the product module. Now we need to create a node_modules subdirectory and create the following two files: 
+
+    In ./node_modules/home.js
+
+        function respond(request, response) {
+          response.writeHead(200, {"Content-Type": "text/html"});
+          response.write("<html><body><h1>Home Page</h1></body></html>");
+          response.end();
+        }
+
+        exports.respond = respond;
+
+    In ./node_modules/product.js 
+
+        function respond(request, response) {
+          response.writeHead(200, {"Content-Type": "text/html"});
+          response.write("<html><body><h1>Product Page</h1></body></html>");
+          response.end();
+        }
+
+        exports.respond = respond;
+
+    You run the Web program by typing `node index.js`. Then open your browser and visit the two pages at http://localhost:8888  and http://localhost:8888/product. 

@@ -1,0 +1,24 @@
+extends ../chapterLayout
+
+block ChapterIntroduction
+  :markdown
+    [MongoDB][] is a popular document-oriented database management system (DBMS) developed by [10gen][]. It works perfectly with Node.js to allow developers use JavaScript for data tire development. Like other members of the Node.js eco system, MongoDB has the features of open source, flexibly schema, rich functions and high-performance. Though developed in C++ , MongoDB stores data using JSON-style documents. JavaScript developers feel at home with the JSON-style document manipulation. It also comes with a JavaScript-based interactive shell for database management and provides a high performance, easy-to-use [Node.js MongoDB driver] for database access. The best place to start learning MongoDB is the [MongoDB Manual][]. The manual has detail and up-to-date information for topics such as installation, configuration, management, development and some tutorials. Plase use the manual to find installation instructions for your system. 
+    
+    This chapter introduces the basic concepts of the MongoDB database and develops a database-driven Web application using Node.js platform, express Web Framework and MongoDB database management system.  
+
+    [MongoDB]: http://www.mongodb.org/
+    [10gen]: http://www.10gen.com/
+    [Node.js MongoDB driver]: http://mongodb.github.com/node-mongodb-native/
+    [MongoDB Manual]: http://docs.mongodb.org/manual/
+
+block SectionContent
+  :markdown
+     MongoDB stores documents in collections. Document are saved in the binary JSON format called BSON. Any JavaScript object in valid JSON form can be stored and accessed using JavaScript-based syntax. Therefore it is natural to use MongoDB in JavaScript programming. There is no need to convert between the program objects and the database objects.  
+     
+     JavaScript object properties are document fields in MongoDB. Because MongoDB is schema-free, you can put different documents into the same collection.  A document field can have multiple values. Every document in MongoDB must have an `_id` field. The value can be generated automatically by MongoDB or set to any value you want assign to it - as long as it is unique in its collection. The `_id` field is the primary key. MongoDB allows you to create secondary indexes in other document fields for better performance. 
+
+     MongoDB supports a rich set of query opertors and update operators. As shown in the following sections, these operators are flexible, easy to understand and easy to use for JavaScript programmers. 
+        
+        
+
+    

@@ -1,0 +1,36 @@
+﻿
+a.prevSection {
+  float: left;
+}
+
+a.nextSection {
+  float: right;
+}
+
+/*
+  make the jQuery navigation link smaller
+  */ 
+a.sectionNav.ui-button {
+  height: 1em;
+  width:  1em;
+}
+ 
+
+/*
+  to contain the floting children
+  */
+#chapterHeader, .sectionFooter {
+  overflow: hidden;
+}
+
+
+.sectionHeader,.chapterIntroduction,.sectionContent, sectionFooter{
+  clear: both;
+}
+
+
+.chapterTitle {
+  font-family: cursive;
+  text-align: center;
+}
+
