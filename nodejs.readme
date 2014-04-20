@@ -15,22 +15,13 @@ start on startup
 stop on shutdown
 
 script
-	#We found $HOME is needed. Without it, we ran into problems
-	export HOME="/root"
-
 	exec /usr/bin/node /where/yourprogram.js 2>&1 >> /var/log/node.log
 end script
 
-2) chmode u+x of the above script so it will be executable
+2) chmod u+x of the above script so it will be executable
 
 3) to start your app
 start yourprogram
 
 4) to stop your app
 stop yourprogram
-
-5) Non-root
-If you don't want to run it as a root, you should change two lines. For example, if we want to run it with www-date user, we should
-
-export HOME="/var/www"
-exec sudo -u www-data /usr/bin/node /where/yourprogram.js 2>&1 >> /var/log/node.log
